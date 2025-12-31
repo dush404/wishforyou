@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Journey to 2026 | The Mandala Recap</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #050505;
+        --accent: #ffffff;
+        --gold: #ffd700;
+        --glass: rgba(20, 20, 20, 0.6);
+        --border: rgba(255, 255, 255, 0.1);
+        --glow: 0 0 20px rgba(255, 255, 255, 0.1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        color: var(--accent);
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      /* Background Image Layer */
+      .bg-layer {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 100vh;
+        height: 100vw;
+        transform: translate(-50%, -50%) rotate(90deg);
+        background: url("bg.jpeg") no-repeat center center;
+        background-size: cover;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* --- User Name Prompt --- */
+      #spanName {
+        text-transform: uppercase;
+      }
+      #intro-overlay {
+        position: fixed;
+        inset: 0;
+        background: black;
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .input-box {
+        max-width: 400px;
+        padding: 20px;
+        width: 90%;
+      }
+
+      .input-box h2 {
+        font-family: "Cinzel";
+        font-weight: 400;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+      }
+
+      input,
+      textarea {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid white;
+        color: white;
+        font-size: 1.2rem;
+        text-align: center;
+        outline: none;
+        width: 100%;
+        margin-bottom: 20px;
+        font-family: "Playfair Display";
+        resize: none;
+      }
+
+      .btn {
+        border: 1px solid white;
+        background: transparent;
+        color: white;
+        padding: 12px 40px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        transition: 0.4s;
+      }
+
+      .btn:hover {
+        background: white;
+        color: black;
+      }
+
+      /* --- Hero Section & Year Morph --- */
+      .message-wrapper {
+        position: relative;
+        width: 100%;
+        height: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero-top-text {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        font-family: "Cinzel";
+        color: var(--gold);
+        opacity: 0;
+        transition: opacity 1s;
+        z-index: 3;
+        letter-spacing: 15px;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      }
+
+      #dayCounter {
+        color: var(--gold);
+      }
+
+      .hero-welcome-text {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        font-family: "Cinzel";
+        color: var(--gold);
+        opacity: 0;
+        transition: opacity 1s;
+        z-index: 3;
+        letter-spacing: 15px;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        padding-bottom: 10px;
+      }
+
+      .hero-top-text span:last-child {
+        font-size: 1rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      #spanName {
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .hero {
+        min-height: 100vh;
+        padding: 25vh 0 10vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .year-container {
+        font-family: "Cinzel", serif;
+        font-size: clamp(6rem, 20vw, 15rem);
+        font-weight: 700;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        display: flex;
+        padding-bottom: 10px;
+      }
+
+      .digit-container {
+        height: 1.2em;
+        overflow: hidden;
+      }
+
+      .digit-slider {
+        display: flex;
+        flex-direction: column;
+        transition: transform 2.5s cubic-bezier(0.8, 0, 0.2, 1);
+      }
+
+      .wishes-text {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 1.5rem;
+        max-width: 600px;
+        margin-top: 10px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 1.5s 1.5s ease-out;
+      }
+
+      .signature-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+        max-width: 600px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 1.5s 2s ease-out;
+      }
+      .designation {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .sig-line {
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        margin: 5px 0;
+      }
+      .author-name {
+        font-family: "Cinzel", serif;
+        color: var(--gold);
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      /* --- Timeline Recap --- */
+      .timeline-header {
+        text-align: center;
+        margin: 100px auto 50px;
+        font-family: "Cinzel";
+        font-size: 2.5rem;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold);
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        position: relative;
+        z-index: 2;
+      }
+
+      .timeline {
+        max-width: 1000px;
+        margin: 0 auto 100px;
+        position: relative;
+        padding: 0 20px;
+        z-index: 2;
+      }
+
+      .timeline::after {
+        content: "";
+        position: absolute;
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--border),
+          transparent
+        );
+        top: 0;
+        bottom: 0;
+        left: 50%;
+      }
+
+      .month-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        margin-bottom: 80px;
+        position: relative;
+      }
+
+      .month-header {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -40px);
+        font-family: "Cinzel";
+        font-size: 0.9rem;
+        color: var(--gold);
+        background: var(--bg);
+        padding: 5px 15px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        z-index: 10;
+        letter-spacing: 3px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .recap-card {
+        width: 45%;
+        padding: 25px;
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: 1s ease-out;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .recap-card.reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .recap-card h3 {
+        font-family: "Cinzel";
+        margin-bottom: 15px;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 5px;
+        color: var(--gold);
+      }
+
+      .recap-card ul {
+        list-style: none;
+        font-size: 0.85rem;
+      }
+      .recap-card ul li {
+        margin-bottom: 12px;
+        color: #ccc;
+        position: relative;
+        padding-left: 15px;
+      }
+      .recap-card ul li::before {
+        content: "•";
+        color: var(--gold);
+        position: absolute;
+        left: 0;
+      }
+      .recap-card ul li strong {
+        color: #fff;
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+      }
+      .viral-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-top: 5px;
+        color: var(--gold);
+      }
+
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .timeline::after {
+          left: 20px;
+        }
+        .month-row {
+          flex-direction: column;
+          gap: 40px;
+          padding-left: 40px;
+        }
+        .recap-card {
+          width: 100%;
+        }
+        .month-header {
+          left: 40px;
+          transform: translate(0, -35px);
+        }
+        .hero-top-text,
+        .hero-welcome-text {
+          letter-spacing: 5px;
+          font-size: 0.9rem;
+        }
+        .year-container {
+          font-size: clamp(4rem, 18vw, 10rem);
+        }
+        .wishes-text {
+          font-size: 1.2rem;
+          padding: 0 20px;
+        }
+        .signature-container {
+          padding-right: 20px;
+        }
+        .bg-layer {
+          width: 100vw;
+          height: 100vh;
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+      }
+
+      /* Loading Spinner */
+      .spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--gold);
+        animation: spin 1s linear infinite;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-layer"></div>
+
+    <div id="intro-overlay">
+      <div class="input-box">
+        <h2>Who is witnessing the new dawn?</h2>
+        <input
+          type="text"
+          id="userName"
+          placeholder="Your Name"
+          autocomplete="off"
+        />
+        <textarea
+          id="userResolution"
+          rows="1"
+          placeholder="Your 2026 Resolution"
+          autocomplete="off"
+        ></textarea>
+        <button class="btn" onclick="initPage()">Begin Journey</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="message-wrapper">
+        <div class="hero-top-text" id="heroTopText">
+          <span id="dayCounter">0/365</span>
+          <span>Goodbye 2025</span>
+        </div>
+        <div class="hero-welcome-text" id="heroWelcomeText">Welcome 2026</div>
+      </div>
+      <div class="year-container">
+        <span>202</span>
+        <div class="digit-container">
+          <div class="digit-slider" id="digitSlider">
+            <span>5</span>
+            <span>6</span>
+          </div>
+        </div>
+      </div>
+      <div class="wishes-text" id="wishesText">
+        May 2026 be your most artistic year yet,
+        <span id="spanName"></span>.<br />
+        A year where your dreams find their wings and your heart finds its
+        peace.
+      </div>
+      <div class="signature-container" id="signatureContainer">
+        <div class="designation">, Your Well Wisher</div>
+        <div class="sig-line"></div>
+        <div class="author-name">DUSHMANTA</div>
+      </div>
+    </section>
+
+    <h2 class="timeline-header">Recap of 2025</h2>
+    <div class="timeline">
+      <div class="month-row">
+        <div class="month-header">JANUARY</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Donald Trump Inaugurated:</strong> Second term begins in
+              US.
+            </li>
+            <li>
+              <strong>Davos Summit:</strong> AI safety dominates WEF agenda.
+            </li>
+            <li>
+              <strong>Global Markets:</strong> React to new US trade policies.
+            </li>
+            <li>
+              <span class="viral-tag">#NewYearNewMe</span> Global fitness
+              challenge trends.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Republic Day:</strong> Grand parade on Kartavya Path.
+            </li>
+            <li>
+              <strong>Economy Watch:</strong> Q3 GDP growth surpasses
+              expectations.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">FEBRUARY</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Super Bowl LIX:</strong> Kendrick Lamar halftime show
+              shocks world.
+            </li>
+            <li>
+              <strong>Grammy Awards:</strong> Historic wins for indie artists.
+            </li>
+            <li>
+              <span class="viral-tag">#ChampionsTrophy</span> Cricket fever
+              begins.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>ICC Champions Trophy:</strong> Team India matches break
+              viewership records.
+            </li>
+            <li>
+              <strong>Budget 2025:</strong> Major focus on Green Energy & AI
+              hubs.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">MARCH</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Oscars 2025:</strong> Sci-fi epic 'Nexus' sweeps major
+              awards.
+            </li>
+            <li>
+              <strong>Champions Trophy Final:</strong> A historic India-Pakistan
+              clash.
+            </li>
+            <li>
+              <span class="viral-tag">#OscarsSoGlam</span> Red carpet looks
+              trend.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Women's IPL:</strong> Season 3 sets new attendance
+              records.
+            </li>
+            <li>
+              <strong>Space Program:</strong> ISRO announces new Gaganyaan
+              mission timeline.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">APRIL</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Earth Day 2025:</strong> Global pact to reduce plastic by
+              40%.
+            </li>
+            <li>
+              <strong>Coachella:</strong> Holographic performances steal the
+              show.
+            </li>
+            <li>
+              <span class="viral-tag">#SustainableLiving</span> Eco-hacks go
+              viral.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Tech Hub:</strong> Bengaluru hosts Global AI Summit.
+            </li>
+            <li>
+              <strong>Infrastructure:</strong> Major bridge project completed in
+              Northeast.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">MAY</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Met Gala:</strong> "Celestial Bodies II" theme stuns
+              fashion world.
+            </li>
+            <li>
+              <strong>Cannes Film Festival:</strong> Indie films dominate the
+              Palme d'Or.
+            </li>
+            <li>
+              <span class="viral-tag">#MetGalaLooks</span> AI-generated fashion
+              critiques.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>IPL Final:</strong> A nail-biting finish for the trophy.
+            </li>
+            <li>
+              <strong>State Elections:</strong> Results announced, new coalition
+              forms.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">JUNE</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>FIFA Club World Cup:</strong> Kickoff in the USA with 32
+              teams.
+            </li>
+            <li>
+              <strong>WWDC 2025:</strong> Apple unveils revolutionary AR
+              glasses.
+            </li>
+            <li>
+              <span class="viral-tag">#ClubWorldCup</span> Football fever
+              returns.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Monsoon Arrival:</strong> Kerala welcomes the rains.
+            </li>
+            <li>
+              <strong>Yoga Day:</strong> PM leads massive event at Kartavya
+              Path.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">JULY</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Wimbledon:</strong> New champion crowned on Centre Court.
+            </li>
+            <li>
+              <strong>FIFA CWC Final:</strong> A European giant lifts the
+              trophy.
+            </li>
+            <li>
+              <span class="viral-tag">#WimbledonWhite</span> Tennis core
+              fashion.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Startup India:</strong> 100th Unicorn of 2025 announced.
+            </li>
+            <li>
+              <strong>Diplomacy:</strong> India hosts South Asia regional
+              cooperation summit.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">AUGUST</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>World Athletics:</strong> Tokyo hosts track & field
+              legends.
+            </li>
+            <li>
+              <strong>Perseid Meteor Shower:</strong> Best visibility in decade.
+            </li>
+            <li>
+              <span class="viral-tag">#FastestMan</span> 100m sprint records.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Independence Day:</strong> 79th year celebrations at Red
+              Fort.
+            </li>
+            <li>
+              <strong>Defense Milestone:</strong> New indigenous aircraft
+              carrier begins sea trials.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">SEPTEMBER</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Artemis II Prep:</strong> NASA confirms lunar flyby
+              readiness.
+            </li>
+            <li>
+              <strong>iPhone 17 Launch:</strong> Holographic display rumors
+              confirmed.
+            </li>
+            <li>
+              <span class="viral-tag">#MoonMission</span> Space enthusiasm
+              peaks.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Auto Sector:</strong> Major EV maker announces new plant
+              in India.
+            </li>
+            <li>
+              <strong>G20 Prep:</strong> India outlines agenda for upcoming
+              presidency.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">OCTOBER</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>Nobel Prizes:</strong> Breakthrough in Clean Energy
+              awarded.
+            </li>
+            <li><strong>Halloween:</strong> Global costume trends go AR.</li>
+            <li>
+              <span class="viral-tag">#Nobel2025</span> Science appreciation.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Digital India:</strong> Nationwide 6G trial network
+              launched.
+            </li>
+            <li>
+              <strong>Festive Economy:</strong> E-commerce platforms report
+              record sales.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">NOVEMBER</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>COP30 Brazil:</strong> Historic climate pact signed in
+              Belem.
+            </li>
+            <li><strong>Thanksgiving:</strong> Global gratitude movements.</li>
+            <li>
+              <span class="viral-tag">#ClimateAction</span> Youth activism
+              trends.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Digital Currency:</strong> RBI introduces new e-Rupee
+              pilot program.
+            </li>
+            <li>
+              <strong>Air Quality:</strong> Delhi implements advanced anti-smog
+              measures.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="month-row">
+        <div class="month-header">DECEMBER</div>
+        <div class="recap-card">
+          <h3>WORLD</h3>
+          <ul>
+            <li>
+              <strong>James Webb:</strong> New "Pillars of Creation" images
+              released.
+            </li>
+            <li><strong>New Year's Eve:</strong> Global countdown to 2026.</li>
+            <li>
+              <span class="viral-tag">#Wrapped2025</span> Music & life recaps.
+            </li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h3>INDIA</h3>
+          <ul>
+            <li>
+              <strong>Viksit Bharat:</strong> PM outlines vision for 2026.
+            </li>
+            <li>
+              <strong>Legislation:</strong> Parliament passes landmark Data
+              Privacy Bill.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function initPage() {
+        const name = document.getElementById("userName").value;
+        const resolution = document.getElementById("userResolution").value;
+
+        if (!name || !resolution) {
+          alert("Please fill in all fields to witness the transition.");
+          return;
+        }
+
+        document.getElementById("spanName").innerText = name;
+        const overlay = document.getElementById("intro-overlay");
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
+
+        setTimeout(() => {
+          // Show counter text and start animations
+          document.getElementById("heroTopText").style.opacity = "1";
+
+          // Morph Year Digit
+          document.getElementById("digitSlider").style.transform =
+            "translateY(-50%)";
+
+          // Animate Day Counter
+          const dayCounter = document.getElementById("dayCounter");
+          const totalDays = 365;
+          const animationDuration = 2500; // ms, matches CSS transition
+          let startTime = null;
+
+          function updateCounter(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsedTime = timestamp - startTime;
+            const progress = Math.min(elapsedTime / animationDuration, 1);
+            const currentDay = Math.floor(progress * totalDays);
+
+            dayCounter.innerText = `${currentDay}/365`;
+
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              dayCounter.innerText = `365/365`; // Ensure it ends on 365
+              // Swap text
+              const topText = document.getElementById("heroTopText");
+              topText.style.transition = "opacity 0.5s";
+              topText.style.opacity = "0";
+              document.getElementById("heroWelcomeText").style.opacity = "1";
+            }
+          }
+          requestAnimationFrame(updateCounter);
+
+          // Show Wishes
+          const wishesText = document.getElementById("wishesText");
+          wishesText.style.opacity = "1";
+          wishesText.style.transform = "translateY(0)";
+
+          // Show Signature
+          const sig = document.getElementById("signatureContainer");
+          sig.style.opacity = "1";
+          sig.style.transform = "translateY(0)";
+
+          // Call Gemini API
+          wishesText.innerHTML = `Consulting the stars for <span style="color:var(--gold)">${name}</span>... <span class="spinner"></span>`;
+
+          generateGroqWish(name, resolution)
+            .then((wish) => {
+              // Format the response: Convert newlines to breaks and bold markdown to gold color
+              const formattedWish = wish
+                .replace(/\n/g, "<br>")
+                .replace(
+                  /\*\*(.*?)\*\*/g,
+                  '<span style="color:var(--gold)">$1</span>'
+                );
+              wishesText.innerHTML = formattedWish;
+            })
+            .catch((err) => {
+              console.error("Groq API Error:", err);
+              // Fallback text
+              wishesText.innerHTML = `May 2026 be your most artistic year yet, <span style="color:var(--gold)">${name}</span>.<br />A year where your dreams find their wings.`;
+            });
+        }, 800);
+      }
+
+      async function generateGroqWish(name, resolution) {
+        // TODO: Replace with your valid Groq API Key
+        const API_KEY =
+          "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";
+        const url = "https://api.groq.com/openai/v1/chat/completions";
+
+        const prompt = `Write a short, personalized New Year 2026 wish (approx 80 words) for ${name}. Their new year resolution is: "${resolution}". The tone should be inspiring, magical, and hopeful.`;
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "llama-3.3-70b-versatile", // Using a supported model on Groq
+              messages: [
+                {
+                  role: "user",
+                  content: prompt,
+                },
+              ],
+              temperature: 0.7,
+              max_tokens: 500,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              `API Error (${response.status}): ${
+                errorData.error?.message || "Unknown error"
+              }`
+            );
+          }
+
+          const data = await response.json();
+          console.log("Groq API Success:", data);
+          return data.choices[0].message.content;
+        } catch (e) {
+          // Throwing to be caught by the caller
+          throw e;
+        }
+      }
+
+      // Scroll Animation Observer
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll(".recap-card").forEach((card) => {
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>
